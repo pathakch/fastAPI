@@ -1,0 +1,26 @@
+Generic single-database configuration.
+
+Steps to use alembic for upgrade and downgrade. 
+step.1. pip install alembic
+step.2. create alembic environment command - <alembic init alembic> it will create one folder named alembic, and one alembic ini file
+step.3. configure db url in alembic.ini file - copy sqlalchemy nurl from database.py file and paste it in alembic.ini file at sqlalchemy.url
+step.3. then start creating alembic revision 1. upgrade, 2.downgrade
+step.4. import models.py file in .env file of alembic folder.
+step.5. make required 2 changes in .env file 
+        1.remove if statement before this line 'fileConfig(config.config_file_name)'
+        2.change target_metadat from None to 'models.Base.metadata'
+step.6. create revision by running this command <alembic revision -m"create phone number for user column"> in terminal
+        This command will create one file with a new revision number in version directory of alembic folder.
+        Then change the upgrade code in this file 
+step.7. run the upgrade command <alembic upgrade {revision_id} > 
+
+After all above steps check your application it won't have phone_number column in users table, 
+Next step - change model.py add phone_number column in user table and again run application and check in swagger it will have one new 
+column in user table as phone_number
+And this way we cna upgrade our db using alembic 
+
+Same steps will repeat for downgrade - we need to change code in the file for downgrade and then run command to downgrade 
+command to downgrade : <alembic downgrade -1>
+
+
+
